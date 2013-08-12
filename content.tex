@@ -29,40 +29,92 @@
 	simulation with a focus on the topology of the interconnection network.
 
 \section{Brain Simulators}
-
-Others have tried to produce machines optimised for the job. Many inspired by
-analogue nature of the brain replace conventional computational nodes with
-analogue electronics which power-efficiently implement popular models. Many of
-these have been experimental and only supported relatively small numbers of
-neurons [cite some early examples] and thus have been able to simply connect
-all-to-all. This really doesn't scale.
-
-Current topologies have been developed with fairly limited scalability.
-
-\subsection{Neurogrid}
-
-Neurogrid features chips which can simulate 65,025 neurons simultaneously but
-serialises their communication. As a result of this, the time taken to send a
-message to $N$ neurons is $O(N)$. Chips are combined in a tree to build larger
-systems. [Why is this limited?]
-
-\subsection{BrainScaleS}
-
-BrainScaleS uses a silicon wafer worth of chips in a mesh network. This network
-is limited in size by silicon manufacturing process constraints and must be
-extended using off-wafer connections to other wafers (proposed using 10 gbit/s
-Ethernet) currently in a star network. This has obvious scaling limits.
-
-\subsection{SpiNNaker}
-
-Finally, the focus of my work so far: SpiNNaker has many small processors
-connected via a torus network whose size is only limited by the address space
-available to neurons. Network optimised for small (maybe zero-data) packets.
-Unlike the first two it runs simulations in software making it far more
-flexible, easier with current understanding of electronics but less power
-efficient.
-
-Here's how it looks in implemented hardware: cores, chips and boards.
+	
+	Current special purpose brain-simulation architectures can be divided into two
+	types categories: those based on conventional digital circuits and those based
+	on analogue electronics inspired by the brain's analogue mechanisms. Though
+	analogue systems can be very power efficient the maturity of digital design
+	techniques have meant that modern analogue simulators are `mixed mode'
+	implementing only the neurons using analogue electronics and interconnecting
+	them with digital electronics. As a result, the interconnection networks of
+	modern analogue and digital simulators are typically directly comparable.
+	
+	This section describes the interconnection network of three notable
+	architectures. A wider and more detailed survey of current simulation
+	architectures is available by Misra and Saha \cite{misra10}.
+	
+	\begin{figure}
+		
+		\center
+		\begin{subfigure}[b]{0.32\textwidth}
+			\center
+			\input{figures/binary-tree}
+			\caption{Binary Tree}
+			\label{fig:binary-tree}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.32\textwidth}
+			\center
+			\input{figures/mesh}
+			\caption{2D Mesh}
+			\label{fig:mesh}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.32\textwidth}
+			\center
+			\input{figures/torus}
+			\caption{2D Torus}
+			\label{fig:torus}
+		\end{subfigure}
+		
+		\caption{Network topology examples. Dots represent chips, boxes represent
+		switches which forward messages but perform no other computation.}
+		\label{fig:network-topology-examples}
+		
+	\end{figure}
+	
+	\subsection{Neurogrid}
+		
+		The Neurogrid architecture consists of chips with analogue hardware to
+		simulate tens of thousands of neurons. Spikes from these neurons are output
+		by the chip one at a time (serially) and must be routed to each of the
+		target neurons which may reside in other chips. Current prototypes feature
+		16 chips which form the leaves of a binary tree (figure
+		\ref{fig:binary-tree}). This architecture can simulate around a million
+		neurons with 100,000 times less power than a conventional super-computer
+		\cite{choudhary12}.
+		
+		The binary tree interconnection network topology is scalable with network
+		latency, in the ideal case, increasing $O(\log{N})$ with the number of
+		chips. For neural simulation, however, tree topologies have been shown by
+		Vainbrand and Ginosar to be non-optimal requiring large amounts of hardware
+		to achieve the bandwidth required to transmit large numbers of spikes
+		between nodes \cite{vainbrand11}.
+	
+	\subsection{BrainScaleS}
+	
+		The BrainScaleS project has developed an architecture unconventionally uses
+		an entire silicon wafer on which tens of chips have been produced
+		side-by-side. Each chip contains a number of analogue neuron simulators
+		which are interconnected via a 2D mesh network (figure \ref{fig:mesh}).
+		Spikes can be forwarded from chip to chip until they reach their destination
+		\cite{schemmel08}. It is intended that multiple wafers will be combined with
+		conventional Internet Protocol (IP) switches.
+		
+		Though mesh networks are easily scaled in principle, the BrainScaleS
+		architecture is limited by the maximum size of a silicon wafer. The topology
+		to be used to connect wafers together has not yet been decided though since
+		silicon wafers are circular, the mesh topology cannot be cleanly tessellated
+		with further wafers detracting from the performance of the network.
+	
+	\subsection{SpiNNaker}
+	
+		Finally, the focus of my work so far: SpiNNaker has many small processors
+		connected via a torus network whose size is only limited by the address
+		space available to neurons. Network optimised for small (maybe zero-data)
+		packets.  Unlike the first two it runs simulations in software making it far
+		more flexible, easier with current understanding of electronics but less
+		power efficient.
+		
+		Here's how it looks in implemented hardware: cores, chips and boards.
 
 \section{Preliminary Work}
 

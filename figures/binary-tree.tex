@@ -1,0 +1,36 @@
+\begin{tikzpicture}[thick, node distance=1em,level distance=1.2cm]
+	
+	% Bodge/Hack to vertically center with mesh and torus figures.
+	\draw [white] (-1.3cm,-3.85cm) rectangle ++(2cm,2cm);
+	
+	\begin{scope}[every node/.style={draw,rectangle,thick},             inner sep=0.1cm]
+		\tikzstyle{level 1}=[sibling distance=2.4cm,every child/.style  ={},inner sep=0.1cm]
+		\tikzstyle{level 2}=[sibling distance=1.2cm,every child/.style  ={},inner sep=0.1cm]
+		\tikzstyle{level 3}=[sibling distance=0.6cm,every child/.style={},inner sep=0.1cm]
+		
+		\node {}
+			child {node {}
+				child {node {}
+					child {node [fill,circle] {}}
+					child {node [fill,circle] {}}
+				}
+				child {node {}
+					child {node [fill,circle] {}}
+					child {node [fill,circle] {}}
+				}
+			}
+			child {node {}
+				child {node {}
+					child {node [fill,circle] {}}
+					child {node [fill,circle] {}}
+				}
+				child {node {}
+					child {node [fill,circle] {}}
+					child {node [fill,circle] {}}
+				}
+			}
+		;
+	\end{scope}
+	
+\end{tikzpicture}
+
