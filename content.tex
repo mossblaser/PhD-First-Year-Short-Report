@@ -10,9 +10,15 @@
 	Neural models are typically a large graph of `neurons' which are connected to
 	potentially thousands of others. Signals, known as spikes, are produced and
 	received between connected neurons resulting in large amounts of very small
-	messages being passed between processors \cite{vainbrand11}.  Because neurons
+	messages being passed between processors \cite{vainbrand11}. Because neurons
 	are often cheap to simulate, typical super computers featuring powerful
 	processors with comparatively limited interconnection networks perform poorly.
+	
+	The Blue Brain project has built a model with extremely realistic neuron
+	behaviour which can exploit typical super-computer resources \cite{markram06}.
+	However, models are severely limited in size to hundreds of thousands of
+	neurons compared with the 85 billion in a human brain. This work instead
+	focuses on the simulation of large networks of simple neurons such as Spaun.
 	
 	Due to the unsuitability of conventional architectures, special-purpose
 	systems have been built for neural simulation. In this short report current
@@ -21,26 +27,6 @@
 	architecture. The report concludes with the research plan proposed to develop
 	this research to eventually yield an improved architecture for brain
 	simulation with a focus on the topology of the interconnection network.
-
-\section{Super-Computers}
-
-Conventional supercomputers give impressive levels of computation but limit the
-size of hetworks as they cannot handle the communication requirements. Super
-comuters typically optimise for bandwidth of large transfers rather than latency
-and bandwidth of many tiny packets. The current Top500 list of leading super
-computers all feature such networks but with latencies for packets in the tens
-of thousands of CPU cycles.
-
-Topologies typically have high powered compute nodes with tree/torus networks
-simple (figures). Trees and tori are good for locality, which is good for
-neurons because they tend to fire locally, though since the brain is essentially
-a 2D sheet, a torus/mesh fits the problem better than a tree.
-
-Blue Brain attempts to use super computers and can simulate very accurately very
-small systems (requiring little communication) but with great detail in the
-neuron behaviour (making use of computational resources). Due to the limit in
-the network size, these systems can't be used for high-level simulations like
-Spaun.
 
 \section{Brain Simulators}
 
